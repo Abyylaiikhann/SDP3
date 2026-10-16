@@ -1,0 +1,36 @@
+@startuml
+skinparam classAttributeIconSize 0
+title Assignment 3 - Bridge Pattern
+interface MessageSender <<Implementor>> {
+ +sendMessage(recipient: String, title: String, body: String): boolean
+ +isAvailable(): boolean
+ +getChannelName(): String
+}
+abstract class AbstractMessageSender
+class TelegramMessageSender <<Concrete Implementor>>
+class EmailMessageSender <<Concrete Implementor>>
+class SmsMessageSender <<Concrete Implementor>>
+class KafkaEventSender <<Concrete Implementor>>
+class PushNotificationSender <<Concrete Implementor>>
+MessageSender <|.. AbstractMessageSender
+AbstractMessageSender <|-- TelegramMessageSender
+AbstractMessageSender <|-- EmailMessageSender
+AbstractMessageSender <|-- SmsMessageSender
+AbstractMessageSender <|-- KafkaEventSender
+AbstractMessageSender <|-- PushNotificationSender
+abstract class Notification <<Abstraction>> {
+ #sender: MessageSender
+ +setSender(sender: MessageSender)
+ +send(recipient: String, message: String)
+}
+class UrgentNotification <<Refined Abstraction>>
+class EncryptedNotification <<Refined Abstraction>>
+class ScheduledBatchNotification <<Refined Abstraction>>
+class MarketingNotification <<Refined Abstraction>>
+Notification <|-- UrgentNotification
+Notification <|-- EncryptedNotification
+Notification <|-- ScheduledBatchNotification
+Notification <|-- MarketingNotification
+Notification o--> MessageSender : Bridge (has-a)
+UrgentNotification o--> MessageSender : fallback
+@enduml

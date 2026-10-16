@@ -1,0 +1,29 @@
+1) Urgent + Telegram
+[Telegram] To: @alex | *Urgent notification* | [URGENT] Server is down!
+
+2) Encrypted + Email
+[Email] To: alex@example.com
+Subject: Encoded notification
+UHJpdmF0ZSBtZXNzYWdl
+-- Notification Gateway
+
+3) Batch + SMS (including one failed recipient)
+[SMS] To: +77010000001 | Your appointment is tomorrow.
+[SMS] To: +77010000002 | Your appointment is tomorrow.
+Batch summary: Total: 3 | Successful: 2 | Failed: 1
+
+4) Runtime switching: Telegram -> Email
+[Telegram] To: @alex | *Urgent notification* | [URGENT] First channel
+[Email] To: alex@example.com
+Subject: Urgent notification
+[URGENT] Second channel
+-- Notification Gateway
+
+5) Telegram unavailable -> SMS fallback
+[SMS] To: +77010000001 | [URGENT] Fallback works
+
+6) Marketing + Push
+[Push] Device: device-token-123 | Alert: Special offer | [PROMO] 20% discount today | Reply STOP to opt out.
+
+7) Additional independent combination: Urgent + Kafka
+[Kafka] Published event {topic:'notifications', key:'billing-service', title:'Urgent notification', payload:'[URGENT] Payment processing delayed'}
