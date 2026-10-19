@@ -115,4 +115,28 @@ class NotificationGatewayTest {
 
         assertFalse(result);
     }
+    @Test
+    void multipleRuntimeSenderSwitching() {
+        SpySender first = new SpySender();
+        SpySender second = new SpySender();
+        SpySender third = new SpySender();
+
+        Notification notification =
+                new UrgentNotification(first);
+
+        notification.send("user1", "First message");
+
+        notification.setSender(second);
+        notification.send("user2", "Second message");
+
+        notification.setSender(third);
+        notification.send("user3", "Third message");
+
+        assertEquals(1, first.calls);
+        assertEquals(1, second.calls);
+        assertEquals(1, third.calls);
+
+        assertEquals("user3", third.recipient);
+        assertEquals("[URGENT] Third message", third.body);
+    }
 }
