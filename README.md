@@ -79,4 +79,18 @@ Open `uml.puml` in a PlantUML editor (or the PlantUML VS Code extension) to view
 
 ## Repository submission
 
-Upload this folder to a GitHub repository, then submit the GitHub link on Moodle. Explain the design in your own words during the individual defense.
+## Bridge Pattern Architecture
+
+This project separates notification types from message delivery providers.
+
+- Abstraction: Notification
+- Refined Abstractions: UrgentNotification, EncryptedNotification,
+  ScheduledBatchNotification, MarketingNotification
+- Implementor: MessageSender
+- Concrete Implementors: Telegram, Email, SMS, Kafka, and Push
+
+The Bridge relationship is implemented through the MessageSender
+reference inside the Notification class.
+
+This design allows notification types and delivery providers
+to evolve independently.
