@@ -90,4 +90,29 @@ class NotificationGatewayTest {
     @Test void nullSenderRejected() {
         assertThrows(NullPointerException.class, () -> new UrgentNotification(null));
     }
+    @Test
+    void smsAcceptsShortMessage() {
+        SmsMessageSender sms = new SmsMessageSender();
+
+        boolean result = sms.sendMessage(
+                "+77011234567",
+                "Test",
+                "Hello"
+        );
+
+        assertTrue(result);
+    }
+
+    @Test
+    void smsRejectsEmptyRecipient() {
+        SmsMessageSender sms = new SmsMessageSender();
+
+        boolean result = sms.sendMessage(
+                "",
+                "Test",
+                "Hello"
+        );
+
+        assertFalse(result);
+    }
 }
